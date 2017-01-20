@@ -48,13 +48,7 @@ namespace AuthAndAccessControl.Service
             JwtSecurityTokenHandler.InboundClaimTypeMap = new Dictionary<string, string>();
             log4net.Config.XmlConfigurator.Configure();
             app.UseCors(CorsOptions.AllowAll);
-            var config = new HttpConfiguration();
-            config.Formatters.Clear();
-            config.Formatters.Add(new JsonMediaTypeFormatter());
-            config.DependencyResolver = new WindsorDependencyResolver(AuthAndAccessControlRunnable.Container);
-            config.MapHttpAttributeRoutes();
-            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            app.UseWebApi(config);
+            
 
             app.UseCookieAuthentication(new Microsoft.Owin.Security.Cookies.CookieAuthenticationOptions
             {
@@ -201,6 +195,13 @@ namespace AuthAndAccessControl.Service
                 });
             });
 
+            var config = new HttpConfiguration();
+            config.Formatters.Clear();
+            config.Formatters.Add(new JsonMediaTypeFormatter());
+            config.DependencyResolver = new WindsorDependencyResolver(AuthAndAccessControlRunnable.Container);
+            config.MapHttpAttributeRoutes();
+            config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            app.UseWebApi(config);
         }
     }
 }

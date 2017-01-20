@@ -20,12 +20,14 @@ namespace AuthAndAccessControl.Service
         }
         public void Start()
         {
+            var url = ConfigurationManager.AppSettings["IdentityServerSecureUrl"];
             httpServer = WebApp.Start<OwinStartup>(url: ConfigurationManager.AppSettings["IdentityServerSecureUrl"]);
         }
 
         public void Stop()
         {
-            
+            httpServer.Dispose();
+            Container.Dispose();
         }
     }
     
